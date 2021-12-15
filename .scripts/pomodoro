@@ -1,0 +1,8 @@
+#!/bin/bash
+
+TIME=1500;
+
+[[ -n "$1" ]] && TIME=$((60*$1))
+
+nohup sh -c "sleep $TIME && notify-send '🍅 Pomodoro session over' 'You have completed a $((TIME/60)) minites. Get some rest!' -u critical && spd-say -t female2 -R 50 'Pomodoro session over'&" >/dev/null 2>&1 &
+
