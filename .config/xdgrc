@@ -1,0 +1,9 @@
+#!/bin/sh
+#General configuration of the folders
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+
+#specific programs with partial support
+export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
+export MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"

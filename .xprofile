@@ -1,0 +1,10 @@
+#!/bin/sh
+#setbg &		# Set the background
+#sxhkd &	# Bind keys
+# Switch to US international with Caps as Mod/Escape
+# Properties button extra Mod/Escape
+unclutter &		# Remove mouse when idle
+#xcompmgr &		# xcompmgr for transparency
+#dunst &			# dunst for notifications
+#mpdupdate &
+
