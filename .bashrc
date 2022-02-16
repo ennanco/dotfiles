@@ -11,10 +11,14 @@ esac
 #ADD THE GENERAL PROFILE WITH OTIONS FOR ANY CMD
 [ -f ~/.profile ] && source ~/.profile
 
+# don't duplicate lines or lines starting with space in the history
+HISTCONTROL=ignoreboth
+
 #GENERAL BEHAVIOUR
 shopt -s autocd #automatic cd folder when name on commandline
 shopt -s checkwinsize # check the window size and update if resized
-setxkbmap -option ctrl:nocaps # remap CAPS_LOCK to Ctrl
+# NOt installed in WSL
+#setxkbmap -option ctrl:nocaps # remap CAPS_LOCK to Ctrl
 
 
  #CMD History
@@ -24,19 +28,22 @@ HISTSIZE=1000
 HISTFILESIZE=2000
 
 # turn on autocompletion
-if [ -f /usr/share/bash-completion/bash_completion ]; then
-   . /usr/share/bash-completion/bash_completion
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
 fi
 
 #LOOK & FEEL
-if [ -f /usr/local/lib/python3.7/dist-packages/powerline/bindings/bash/powerline.sh ]; then
-    powerline-daemon -q
-    POWERLINE_BASH_CONTINUATION=1
-    POWERLINE_BASH_SELECT=1
-    source /usr/local/lib/python3.7/dist-packages/powerline/bindings/bash/powerline.sh
+if [ -f /usr/local/bin/starship  ]; then
+    eval "$(starship init bash)"
 else
-    export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 3)\]\u\[$(tput setaf 2)\]@\[$(tput setaf 4)\]\h \[$(tput setaf 5)\]\W\[$(tput setaf 1)\]]\[$(tput setaf 7)\]\\$ \[$(tput sgr0)\]"
-    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+        debian_chroot=$(cat /etc/debian_chroot)
+    fi
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 # else
     # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
