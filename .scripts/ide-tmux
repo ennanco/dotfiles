@@ -37,7 +37,7 @@ info(){
 
 
 cd "$root_folder" || exit
-tmux new -s "$session_name" -d "vim $main_file"
+tmux new -s "$session_name" -d "nvim $main_file"
 tmux split-window -h -p 1 'htop'
 tmux split-window -v -p 99
 tmux split-window -v
