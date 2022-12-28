@@ -49,4 +49,4 @@ fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-
+[ -f /usr/share/autojump/sutojump.sh ] && source /usr/share/autojump/autojump.sh
