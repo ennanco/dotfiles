@@ -3,21 +3,26 @@ filetype off
 
 
 call plug#begin('~/.vim/plugged')
-Plug 'davidhalter/jedi-vim'                                     " Python auto-complete
-Plug 'vim-scripts/indentpython.vim'                             " Python auto-indentation
-Plug 'altercation/vim-colors-solarized'                         " Solarized theme
-Plug 'arcticicestudio/nord-vim'                                 "Make nord theme available
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}              " NERDTree to explore directory
-Plug 'tpope/vim-fugitive'                                       " Git integration plugin
-Plug 'tpope/vim-surround'                                       " Complete the bracket
-Plug 'tpope/vim-repeat'                                         " maps . to repeat last command
-Plug 'tpope/vim-commentary'                                     "comment multiple lines, paragraphs or sections by using 'gc'
-Plug 'tmhedberg/SimpylFold'                                     " Easy folding to hide funtions
+Plug 'itchyny/lightline.vim'                         " Status bar lighter than airline
+Plug 'arcticicestudio/nord-vim'                      " Make nord theme available
+Plug 'altercation/vim-colors-solarized'              " Solarized theme
+Plug 'ghifarit53/tokyonight-vim'                     " Tokyonight theme options night storm
+Plug 'Valloric/YouCompleteMe'
+Plug 'davidhalter/jedi-vim'                          " Python auto-complete
+Plug 'vim-scripts/indentpython.vim'                  " Python auto-indentation
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} " NERDTree to explore directory
+Plug 'tpope/vim-fugitive'                            " Git integration plugin
+Plug 'tpope/vim-surround'                            " Complete the bracket
+Plug 'tpope/vim-repeat'                              " maps . to repeat last command
+" Plug 'tpope/vim-commentary'                        " comment multiple lines, paragraphs or sections by using 'gc'
+Plug 'airblade/vim-gitgutter'                        " Highlight the lines modified from the git pushed version
+Plug 'preservim/nerdcommenter'
 Plug 'bronson/vim-trailing-whitespace'                          " Mark as incorrect any space
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } " Fuzzy finder for files command :Files
 Plug 'junegunn/fzf.vim'                                         "Counter part for fzf
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
+Plug 'godlygeek/tabular'
+
 call plug#end()
 
 set nocompatible                "set compatibility with old vi to none, required fro many other options
@@ -84,8 +89,7 @@ nnoremap c "_c
 autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 " Setup theme
-colorscheme nord
-"colorscheme industry
+"colorscheme nord
 "let g:solarized_termcolors=256
 "if has('gui_running')
 "    colorscheme solarized
@@ -97,21 +101,46 @@ colorscheme nord
 "call togglebg#map("<F5>")
 
 " Enable folding
-set foldmethod=indent
-set foldlevel=99
-nnoremap <space> za
-let g:SimpylFold_docstring_preview=1
+"set foldmethod=indent
+" set foldlevel=99
+" nnoremap <space> za
+" let g:SimpylFold_docstring_preview=1
 
 "Powerline setup
 "let g:airline_theme='powerlineish'
-set rtp+=/usr/local/lib/python3.7/dist-packages/powerline/bindings/vim/
+"set rtp+=/usr/local/lib/python3.7/dist-packages/powerline/bindings/vim/
 set laststatus=2
-set t_Co=256
+"set t_Co=256
+
+set termguicolors
+
+let g:tokyonight_style = 'storm' " available: night, storm
+let g:tokyonight_enable_italic = 0
+
+colorscheme tokyonight
+
+set noshowmode
+let g:lightline = {
+      \ 'colorscheme': 'tokyonight',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
+
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+"FZF
+map <C-f> <Esc><Esc>:Files!<CR>
+inoremap <C-f> <Esc><Esc>:Blines!<CR>
+map <C-g> <Esc><Esc>:BCommits!<CR>
 
 "NERDTree defining the shortcut
 map <C-n> :NERDTreeToggle<CR>
@@ -123,6 +152,9 @@ map <C-p> "+P
 
 " Automatically deletes all trailing whitespace on save.
 autocmd BufWritePre * %s/\s\+$//e
+
+"Git Gutter
+set updatetime=500
 
 " Spell-check ]s and [s to move between mistakes z= for suggestions, zg, zug, zw, zuw:
 map <leader>o :setlocal spell! spelllang=en_gb<CR>
@@ -140,91 +172,6 @@ map <leader>c :w! \| !compiler <c-r>%<CR>
 " Open corresponding .pdf/.html or preview
 map <leader>p :!opout <c-r>%<CR><CR>
 
-" Navigating with guides
-	inoremap <leader><leader> <Esc>/<++><Enter>"_c4l
-	vnoremap <leader><leader> <Esc>/<++><Enter>"_c4l
-	map <leader><leader> <Esc>/<++><Enter>"_c4l
-
 """LATEX
 	" Word count:
 	autocmd FileType tex map <leader>w :w !detex \| wc -w<CR>
-	" Code snippets
-	autocmd FileType tex inoremap <leader>fr \begin{frame}<Enter>\frametitle{}<Enter><Enter><++><Enter><Enter>\end{frame}<Enter><Enter><++><Esc>6kf}i
-	autocmd FileType tex inoremap <leader>em \emph{}<++><Esc>T{i
-	autocmd FileType tex inoremap <leader>bf \textbf{}<++><Esc>T{i
-	autocmd FileType tex vnoremap <leader> <ESC>`<i\{<ESC>`>2la}<ESC>?\\{<Enter>a
-	autocmd FileType tex inoremap <leader>it \textit{}<++><Esc>T{i
-	autocmd FileType tex inoremap <leader>ol \begin{enumerate}<Enter><Enter>\end{enumerate}<Enter><Enter><++><Esc>3kA\item<Space>
-	autocmd FileType tex inoremap <leader>ul \begin{itemize}<Enter><Enter>\end{itemize}<Enter><Enter><++><Esc>3kA\item<Space>
-	autocmd FileType tex inoremap <leader>li <Enter>\item<Space>
-	autocmd FileType tex inoremap <leader>ref \ref{}<Space><++><Esc>T{i
-	autocmd FileType tex inoremap <leader>tab \begin{tabular}<Enter><++><Enter>\end{tabular}<Enter><Enter><++><Esc>4kA{}<Esc>i
-	autocmd FileType tex inoremap <leader>a \href{}{<++>}<Space><++><Esc>2T{i
-	autocmd FileType tex inoremap <leader>sc \textsc{}<Space><++><Esc>T{i
-	autocmd FileType tex inoremap <leader>chap \chapter{}<Enter><Enter><++><Esc>2kf}i
-	autocmd FileType tex inoremap <leader>sec \section{}<Enter><Enter><++><Esc>2kf}i
-	autocmd FileType tex inoremap <leader>ssec \subsection{}<Enter><Enter><++><Esc>2kf}i
-	autocmd FileType tex inoremap <leader>sssec \subsubsection{}<Enter><Enter><++><Esc>2kf}i
-"	autocmd FileType tex inoremap <leader>tt \texttt{}<Space><++><Esc>T{i
-"	autocmd FileType tex inoremap <leader>bt {\blindtext}
-	autocmd FileType tex inoremap <leader>col \begin{columns}[T]<Enter>\begin{column}{.5\textwidth}<Enter><Enter>\end{column}<Enter>\begin{column}{.5\textwidth}<Enter><++><Enter>\end{column}<Enter>\end{columns}<Esc>5kA
-	autocmd FileType tex inoremap <leader>rn (\ref{})<++><Esc>F}i
-""".bib
-	autocmd FileType bib inoremap <leader>a @article{<Enter>author<Space>=<Space>{<++>},<Enter>year<Space>=<Space>{<++>},<Enter>title<Space>=<Space>{<++>},<Enter>journal<Space>=<Space>{<++>},<Enter>volume<Space>=<Space>{<++>},<Enter>pages<Space>=<Space>{<++>},<Enter>}<Enter><++><Esc>8kA,<Esc>i
-	autocmd FileType bib inoremap <leader>b @book{<Enter>author<Space>=<Space>{<++>},<Enter>year<Space>=<Space>{<++>},<Enter>title<Space>=<Space>{<++>},<Enter>publisher<Space>=<Space>{<++>},<Enter>}<Enter><++><Esc>6kA,<Esc>i
-	autocmd FileType bib inoremap <leader>c @incollection{<Enter>author<Space>=<Space>{<++>},<Enter>title<Space>=<Space>{<++>},<Enter>booktitle<Space>=<Space>{<++>},<Enter>editor<Space>=<Space>{<++>},<Enter>year<Space>=<Space>{<++>},<Enter>publisher<Space>=<Space>{<++>},<Enter>}<Enter><++><Esc>8kA,<Esc>i
-
-"""HTML
-	autocmd FileType html inoremap <leader>b <b></b><Space><++><Esc>FbT>i
-	autocmd FileType html inoremap <leader>it <em></em><Space><++><Esc>FeT>i
-	autocmd FileType html inoremap <leader>1 <h1></h1><Enter><Enter><++><Esc>2kf<i
-	autocmd FileType html inoremap <leader>2 <h2></h2><Enter><Enter><++><Esc>2kf<i
-	autocmd FileType html inoremap <leader>3 <h3></h3><Enter><Enter><++><Esc>2kf<i
-	autocmd FileType html inoremap <leader>p <p></p><Enter><Enter><++><Esc>02kf>a
-	autocmd FileType html inoremap <leader>a <a<Space>href=""><++></a><Space><++><Esc>14hi
-	autocmd FileType html inoremap <leader>e <a<Space>target="_blank"<Space>href=""><++></a><Space><++><Esc>14hi
-	autocmd FileType html inoremap <leader>ul <ul><Enter><li></li><Enter></ul><Enter><Enter><++><Esc>03kf<i
-	autocmd FileType html inoremap <leader>li <Esc>o<li></li><Esc>F>a
-	autocmd FileType html inoremap <leader>ol <ol><Enter><li></li><Enter></ol><Enter><Enter><++><Esc>03kf<i
-	autocmd FileType html inoremap <leader>im <img src="" alt="<++>"><++><esc>Fcf"a
-	autocmd FileType html inoremap <leader>td <td></td><++><Esc>Fdcit
-	autocmd FileType html inoremap <leader>tr <tr></tr><Enter><++><Esc>kf<i
-	autocmd FileType html inoremap <leader>th <th></th><++><Esc>Fhcit
-	autocmd FileType html inoremap <leader>tab <table><Enter></table><Esc>O
-	autocmd FileType html inoremap <leader>dt <dt></dt><Enter><dd><++></dd><Enter><++><esc>2kcit
-	autocmd FileType html inoremap <leader>dl <dl><Enter><Enter></dl><enter><enter><++><esc>3kcc
-	autocmd FileType html inoremap &<space> &amp;<space>
-	autocmd FileType html inoremap á &aacute;
-	autocmd FileType html inoremap é &eacute;
-	autocmd FileType html inoremap í &iacute;
-	autocmd FileType html inoremap ó &oacute;
-	autocmd FileType html inoremap ú &uacute;
-	autocmd FileType html inoremap ä &auml;
-	autocmd FileType html inoremap ë &euml;
-	autocmd FileType html inoremap ï &iuml;
-	autocmd FileType html inoremap ö &ouml;
-	autocmd FileType html inoremap ü &uuml;
-	autocmd FileType html inoremap ã &atilde;
-	autocmd FileType html inoremap ẽ &etilde;
-	autocmd FileType html inoremap ĩ &itilde;
-	autocmd FileType html inoremap õ &otilde;
-	autocmd FileType html inoremap ũ &utilde;
-	autocmd FileType html inoremap ñ &ntilde;
-	autocmd FileType html inoremap à &agrave;
-	autocmd FileType html inoremap è &egrave;
-	autocmd FileType html inoremap ì &igrave;
-	autocmd FileType html inoremap ò &ograve;
-	autocmd FileType html inoremap ù &ugrave;
-
-"MARKDOWN
-	autocmd Filetype markdown inoremap ,n ---<Enter><Enter>
-	autocmd Filetype markdown inoremap ,b ****<++><Esc>F*hi
-	autocmd Filetype markdown inoremap ,s ~~~~<++><Esc>F~hi
-	autocmd Filetype markdown inoremap ,e **<++><Esc>F*i
-	autocmd Filetype markdown inoremap ,h ====<Space><++><Esc>F=hi
-	autocmd Filetype markdown inoremap ,i ![](<++>)<++><Esc>F[a
-	autocmd Filetype markdown inoremap ,a [](<++>)<++><Esc>F[a
-	autocmd Filetype markdown inoremap ,1 #<Space><Enter><++><Esc>kA
-	autocmd Filetype markdown inoremap ,2 ##<Space><Enter><++><Esc>kA
-	autocmd Filetype markdown inoremap ,3 ###<Space><Enter><++><Esc>kA
-	autocmd Filetype markdown inoremap ,l --------<Enter>

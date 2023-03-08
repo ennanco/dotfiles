@@ -40,7 +40,7 @@ export LESSHISTFILE=-
 
 
 #RUST HOME and CARGO home
-export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
-export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
-export PATH="$CARGO_HOME/bin:$PATH"
-
+#export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+#export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
+#export PATH="$CARGO_HOME/bin:$PATH"
+. $HOME/.cargo/env
