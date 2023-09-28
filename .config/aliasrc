@@ -12,3 +12,4 @@ alias more='less'
 alias please='sudo $(fc -ln -1)'
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 alias jupyter-notebook="~/.local/bin/jupyter-notebook --no-browser"
+alias ssh-tmux="ssh -t -- /bin/sh -c 'tmux has-session && exec tmux attach || exec tmux'"
