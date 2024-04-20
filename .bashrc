@@ -56,4 +56,28 @@ fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+
+fzf_comprun() {
+    local command=$1
+    shift
+
+    case "$command" in 
+        cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@";;
+        export|unset) fzf --preview "eval 'echo \$' {}" "$@" ;;
+        ssh)          fzf --preview 'dig {}'  "$@";;
+        *)            fzf --preview "--preview 'bat -n --color=always --line-range : 500 {}'" "$@" ;;
+    esac
+}
+
+
 export EDITOR='vim'
+
+source /home/quique/.config/broot/launcher/bash/br
+
+# Framework to install versions of julia tool jill.py
+export JILL_INSTALL_DIR=~/.local/share/julia
+
+export BAT_THEME=tokyonight_night
