@@ -7,7 +7,7 @@ Plug 'itchyny/lightline.vim'                         " Status bar lighter than a
 Plug 'arcticicestudio/nord-vim'                      " Make nord theme available
 Plug 'altercation/vim-colors-solarized'              " Solarized theme
 Plug 'ghifarit53/tokyonight-vim'                     " Tokyonight theme options night storm
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 Plug 'davidhalter/jedi-vim'                          " Python auto-complete
 Plug 'vim-scripts/indentpython.vim'                  " Python auto-indentation
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'} " NERDTree to explore directory

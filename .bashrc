@@ -75,8 +75,6 @@ fzf_comprun() {
 
 export EDITOR='vim'
 
-source /home/quique/.config/broot/launcher/bash/br
-
 # Framework to install versions of julia tool jill.py
 export JILL_INSTALL_DIR=~/.local/share/julia
 

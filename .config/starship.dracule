@@ -1,0 +1,90 @@
+# Inserts a blank line between shell prompts
+add_newline = true
+
+[line_break]
+disabled = true
+
+[username]
+style_user = "fg:#21222C bg:#bd93f9"
+show_always = true
+format = "[ $user]($style)"
+
+[hostname]
+ssh_only = true
+style = " fg:#21222C bg:#bd93f9"
+format = "[@$hostname]($style)"
+trim_at = "-"
+disabled = false
+
+[directory]
+truncation_length = 3
+truncation_symbol = "..."
+style = "fg:#21222C bg:#69FF94"
+format = "[[](fg:#bd93f9 bg:#69FF94) on $path]($style)[$lock_symbol]($lock_style)[](#69FF94)"
+
+[git_branch]
+style = "fg:#21222C bg:#ff79c6"
+format = "[\uE0B0 $symbol$branch]($style)[\uE0B0](#ff79c6)"
+
+[character]
+error_symbol = "[❯](bold #ff5555)"
+success_symbol = "[❯](bold #f8f8f2)"
+
+[battery]
+full_symbol = "🔋"
+charging_symbol = "🔌"
+discharging_symbol = "⚡"
+
+[[battery.display]]
+threshold = 30
+style = "bold #FF5555"
+
+[cmd_duration]
+min_time = 25_000  # Show command duration over 10,000 milliseconds (=10 sec)
+format = "[ took $duration]($style)"
+style = "bold #f1fa8c"
+disabled = false
+
+[git_commit]
+commit_hash_length = 8
+style = "bold #ff79c6"
+
+[git_state]
+style = "bold #ff79c6"
+format = '[\($state( $progress_current of $progress_total)\)]($style) '
+
+[git_status]
+conflicted = "💀"
+behind = "🔔"
+untracked = "?"
+modified = "!"
+deleted = "✘"
+style = "bold #ff1fa8"
+format = "$all_status"
+
+[julia]
+format = "[$symbol$version]($style) "
+symbol = "ஃ "
+style = "bold #ffb86c"
+
+[memory_usage]
+format = "$symbol[${ram}( | ${swap})]($style) "
+threshold = 70
+style = "bold #ff5555"
+disabled = false
+
+[package]
+disabled = true
+
+[python]
+format = "[$symbol$version]($style) "
+style = "bold #ffb86c"
+
+[rust]
+format = "[$symbol$version]($style) "
+style = "bold #ffb86c"
+
+[time]
+disabled = true
+
+
