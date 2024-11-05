@@ -35,17 +35,26 @@ info(){
  done
 
 
+# Cambiar al directorio especificado
+cd "$root_folder" || { echo "Directory not found: $root_folder"; exit 1; }
 
-cd "$root_folder" || exit
-tmux new -s "$session_name" -d "nvim $main_file"
-tmux split-window -h -p 1 'htop'
-tmux split-window -v -p 99
-tmux split-window -v
+# Verificar si la sesión ya existe
+if tmux has-session -t "$session_name" 2>/dev/null; then
+    echo "Session '$session_name' already exists. Attaching..."
+    tmux attach-session -t "$session_name"
+else
+    echo "Creating new session '$session_name'..."
+    tmux new-session -s "$session_name" -d "vim $main_file"
+    tmux split-window -h -l 1% 'htop'
+    tmux split-window -v -l 99%
+    tmux split-window -v
 
-if [ -n "$fl_test" ]; then
-    tmux new-window -t "$session_name":1 -n "$fl_test";
+    if [ -n "$fl_test" ]; then
+        tmux new-window -t "$session_name":1 -n "$fl_test"
+        tmux split-window -h 'btm'
+    fi
+
+    tmux select-window -t "$session_name":0
+    tmux select-pane -t 0
+    tmux attach-session -t "$session_name"
 fi
-tmux select-window -t "$session_name":0
-tmux select-pane -t 0
-tmux attach -t "$session_name"
-
