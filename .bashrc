@@ -29,11 +29,8 @@ if [ -f /usr/share/bash-completion/bash_completion ]; then
 fi
 
 #LOOK & FEEL
-if [ -f /usr/local/lib/python3.7/dist-packages/powerline/bindings/bash/powerline.sh ]; then
-    powerline-daemon -q
-    POWERLINE_BASH_CONTINUATION=1
-    POWERLINE_BASH_SELECT=1
-    source /usr/local/lib/python3.7/dist-packages/powerline/bindings/bash/powerline.sh
+if starship -V > /dev/null ; then
+    eval "$(starship init bash)"
 else
     export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 3)\]\u\[$(tput setaf 2)\]@\[$(tput setaf 4)\]\h \[$(tput setaf 5)\]\W\[$(tput setaf 1)\]]\[$(tput setaf 7)\]\\$ \[$(tput sgr0)\]"
     # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
@@ -49,4 +46,25 @@ fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-[ -f /usr/share/autojump/sutojump.sh ] && source /usr/share/autojump/autojump.sh
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+fzf_comprun() {
+   local command=$1
+   shift
+   case "$command" in
+       cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@";;
+       export|unset) fzf --preview "eval 'echo \$' {}" "$@" ;;
+       ssh)          fzf --preview 'dig {}'  "$@";;
+       *)            fzf --preview "--preview 'bat -n --color=always --line-range : 500 {}'" "$@" ;;
+   esac
+}
+
+# bat command ( a better alternative to cat)
+
+export BAT_THEME=tokyonight_night
+
+
+[ -f /usr/share/autojump/autojump.sh ] && source /usr/share/autojump/autojump.sh
+
+. "$HOME/.local/share/../bin/env"

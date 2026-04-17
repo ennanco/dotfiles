@@ -55,8 +55,20 @@ export PATH="$CARGO_HOME/bin:$PATH"
 export CUDA_HOME='/usr/local/cuda'
 export PATH="$CUDA_HOME/bin:$PATH"
 export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=$CUDA_HOME/extras/CUPTI/lib64:$LD_LIBRARY_PATH
 ##OPENBLAS
-export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=$CUDA_HOME/extras/CUPTI/lib64:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+#export LD_LIBRARY_PATH=$CUDA_HOME/extras/CUPTI/lib64:$LD_LIBRARY_PATH
+
+
+. "$HOME/.local/share/../bin/env"
+
+
+# This is to install nvm
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+# Cache de NPM
+export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
 

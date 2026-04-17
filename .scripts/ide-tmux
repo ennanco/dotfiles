@@ -1,8 +1,12 @@
 #!/bin/bash
 
+set -euo pipefail
+
 root_folder=${PWD}
 main_file=""
 session_name="default"
+fl_test=""
+main_window="main"
 
 
 info(){
@@ -28,8 +32,13 @@ info(){
        t)
              fl_test="test"
             ;;
+       h)
+            info
+            exit 0
+            ;;
          *)
-             info && exit
+             info
+             exit 1
              ;;
      esac
  done
@@ -37,15 +46,43 @@ info(){
 
 
 cd "$root_folder" || exit
-tmux new -s "$session_name" -d "nvim $main_file"
-tmux split-window -h -p 1 'htop'
-tmux split-window -v -p 99
-tmux split-window -v
+if tmux has-session -t "$session_name" 2>/dev/null; then
+    if [ -n "${TMUX:-}" ]; then
+        tmux switch-client -t "$session_name"
+    else
+        tmux attach -t "$session_name"
+    fi
+    exit 0
+fi
+
+tmux new-session -d -s "$session_name" -n "$main_window" -c "$root_folder"
+main_pane=$(tmux display-message -p -t "$session_name:$main_window" "#{pane_id}")
+if [ -n "$main_file" ]; then
+    tmux send-keys -t "$main_pane" "nvim -- \"$main_file\"" C-m
+else
+    tmux send-keys -t "$main_pane" "nvim" C-m
+fi
+right_pane=$(tmux split-window -t "$main_pane" -h -l 20% -P -F "#{pane_id}")
+tmux send-keys -t "$right_pane" "htop" C-m
+left_bottom=$(tmux split-window -t "$main_pane" -v -l 30% -P -F "#{pane_id}")
+left_bottom2=$(tmux split-window -t "$left_bottom" -v -l 50% -P -F "#{pane_id}")
+tmux send-keys -t "$left_bottom2" "lazygit" C-m
 
 if [ -n "$fl_test" ]; then
-    tmux new-window -t "$session_name":1 -n "$fl_test";
+    tmux new-window -t "$session_name:" -n "$fl_test" -c "$root_folder"
+    test_left=$(tmux display-message -p -t "$session_name:$fl_test" "#{pane_id}")
+    test_right_top=$(tmux split-window -t "$test_left" -h -p 50 -P -F "#{pane_id}")
+    test_right_bottom=$(tmux split-window -t "$test_right_top" -v -p 50 -P -F "#{pane_id}")
+    tmux send-keys -t "$test_right_top" "btm" C-m
+    tmux send-keys -t "$test_right_bottom" "nvtop" C-m
+    tmux select-pane -t "$test_left"
+    tmux new-window -t "$session_name:" -n "IA" -c "$root_folder"
+    tmux send-keys -t "$session_name:IA" "codex" C-m
 fi
-tmux select-window -t "$session_name":0
-tmux select-pane -t 0
-tmux attach -t "$session_name"
-
+tmux select-window -t "$session_name:$main_window"
+tmux select-pane -t "$main_pane"
+if [ -n "${TMUX:-}" ]; then
+    tmux switch-client -t "$session_name"
+else
+    tmux attach -t "$session_name"
+fi
