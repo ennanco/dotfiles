@@ -1,3 +1,0 @@
-#!/bin/sh
-# Compatibility shim: aliases now live in ~/.config/bash/conf.d/alias.sh
-[ -f "$HOME/.config/bash/conf.d/alias.sh" ] && . "$HOME/.config/bash/conf.d/alias.sh"

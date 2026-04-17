@@ -41,9 +41,8 @@ if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
 fi
 
-# 6. Modular loading
-if [ -d "$HOME/.config/bash/conf.d" ]; then
-    for file in "$HOME/.config/bash/conf.d"/*.sh; do
-        [ -r "$file" ] && . "$file"
-    done
-fi
+# 6. Interactive modules only
+[ -r "$HOME/.config/bash/conf.d/alias.sh" ] && . "$HOME/.config/bash/conf.d/alias.sh"
+[ -r "$HOME/.config/bash/conf.d/fzf.sh" ] && . "$HOME/.config/bash/conf.d/fzf.sh"
+[ -r "$HOME/.config/bash/conf.d/zoxide.sh" ] && . "$HOME/.config/bash/conf.d/zoxide.sh"
+[ -r "$HOME/.config/bash/conf.d/nvm.sh" ] && . "$HOME/.config/bash/conf.d/nvm.sh"

@@ -1,3 +1,0 @@
-#!/bin/sh
-# Compatibility shim: XDG vars now live in ~/.config/bash/conf.d/xdg.sh
-[ -f "$HOME/.config/bash/conf.d/xdg.sh" ] && . "$HOME/.config/bash/conf.d/xdg.sh"
