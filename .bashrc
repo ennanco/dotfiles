@@ -31,7 +31,7 @@ if ! shopt -oq posix; then
 fi
 
 # 4. Prompt y Visual (Starship)
-if [ -f /usr/local/bin/starship ]; then
+if command -v starship >/dev/null 2>&1; then
     eval "$(starship init bash)"
 else
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
