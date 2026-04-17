@@ -1,8 +1,8 @@
 # ~/.profile: Global environment and session variables
 
 # 1. Load XDG configuration first (required by other settings)
-if [ -f "$HOME/.config/bash/conf.d/xdg.sh" ]; then
-    . "$HOME/.config/bash/conf.d/xdg.sh"
+if [ -f "$HOME/.config/bash/conf.d/env/xdg.sh" ]; then
+    . "$HOME/.config/bash/conf.d/env/xdg.sh"
 fi
 
 # 2. Base PATH
@@ -41,7 +41,9 @@ export LESSHISTFILE=-
 export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/npm/npmrc"
 export NPM_CONFIG_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/npm"
 
-# 7. Linux CUDA/NVIDIA support (when present)
-if [ -f "$HOME/.config/bash/conf.d/gpu-linux.sh" ]; then
-    . "$HOME/.config/bash/conf.d/gpu-linux.sh"
+# 7. Environment modules
+if [ -d "$HOME/.config/bash/conf.d/env" ]; then
+    for file in "$HOME/.config/bash/conf.d/env"/*.sh; do
+        [ -r "$file" ] && . "$file"
+    done
 fi
