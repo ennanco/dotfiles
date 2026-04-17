@@ -1,30 +1,29 @@
-# ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
+# ~/.profile: Entorno global y variables de sesión
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
-
-# if running bash now added to bashrc the load of .profile
-#if [ -n "$BASH_VERSION" ]; then
-#include .bashrc if it exists
-#     [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
-#fi
-
-# set PATH so it includes user's private bin if it exists
-PATH="$HOME/.scripts:$PATH"
-if [ -d "$HOME/.local/bin" ]; then
-  export PATH="$HOME/.local/bin:$PATH"
+# 1. Carga de configuración XDG (Fundamental para todo lo demás)
+if [ -f "$HOME/.config/bash/conf.d/xdg.sh" ]; then
+    . "$HOME/.config/bash/conf.d/xdg.sh"
 fi
 
-# Juliaup addition
-export PATH=/home/quique/.local/share/juliaup/bin${PATH:+:${PATH}}
+# 2. PATH (Organizado y sin duplicados)
+export PATH="$HOME/.scripts:$PATH"
+[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+export PATH="/home/quique/.local/share/juliaup/bin:$PATH"
+export PATH="/home/quique/.opencode/bin:$PATH"
 
-# LESS & MAN colors
-export LESS=-R
+# 3. Herramientas de Desarrollo (Usando XDG definidas en xdg.sh)
+export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
+export DOCKER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/docker"
+export PATH="$CARGO_HOME/bin:$PATH"
+
+# 4. Preferencias de Aplicaciones
+export EDITOR='vim'
+export JULIAUP_DEPOT_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/julia"
+export BAT_THEME='tokyonight_night'
+
+# 5. Configuración de LESS y Terminal
+export LESS='-R'
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;36m'
 export LESS_TERMCAP_me=$'\e[0m'
@@ -32,28 +31,5 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;44;32m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;31m'
-#less more friendly for non text inputs
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 export LESSHISTFILE=-
-
-# load aliases for the terminal defining some
-[ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
-#if exists load the variables XDG base directory
-[ -f "$HOME/.config/xdgrc" ] && source "$HOME/.config/xdgrc"
-
-#RUST HOME and CARGO home
-export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
-export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
-export PATH="$CARGO_HOME/bin:$PATH"
-export DOCKER_CONFIG="${XDG_DATA_HOME:-$HOME/.local/share}/docker"
-#
-#. $XDG_DATA_HOME/cargo/env
-
-
-# This is to install nvm
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-# opencode
-export PATH=/home/quique/.opencode/bin:$PATH
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
