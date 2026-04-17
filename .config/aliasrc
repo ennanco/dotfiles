@@ -1,12 +1,3 @@
 #!/bin/sh
-alias cat='bat'
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-alias cp='cp -iv'
-alias diff='diff --color=auto'
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias grep='grep --color=auto'
-alias ls='eza -gh --group-directories-first --git --icons=always --color=always' #'ls -hH --group-directories-first --color=auto'
-alias more='less'
-alias please='sudo $(fc -ln -1)'
-alias tmux='tmux -f ~/.config/tmux/tmux.conf'
+# Compatibility shim: aliases now live in ~/.config/bash/conf.d/alias.sh
+[ -f "$HOME/.config/bash/conf.d/alias.sh" ] && . "$HOME/.config/bash/conf.d/alias.sh"

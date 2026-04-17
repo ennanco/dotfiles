@@ -1,27 +1,32 @@
-# ~/.profile: executed by the command interpreter for login shells.
-# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login
-# exists.
-# see /usr/share/doc/bash/examples/startup-files for examples.
-# the files are located in the bash-doc package.
+# ~/.profile: Global environment and session variables
 
-# the default umask is set in /etc/profile; for setting the umask
-# for ssh logins, install and configure the libpam-umask package.
-#umask 022
-
-# if running bash now added to bashrc the load of .profile
-#if [ -n "$BASH_VERSION" ]; then
-     #include .bashrc if it exists
-#     [ -f "$HOME/.bashrc" ] && source "$HOME/.bashrc"
-#fi
-
-# set PATH so it includes user's private bin if it exists
-PATH="$HOME/.scripts:$PATH"
-if [ -d "$HOME/.local/bin" ] ; then
-    export PATH="$HOME/.local/bin:$PATH"
+# 1. Load XDG configuration first (required by other settings)
+if [ -f "$HOME/.config/bash/conf.d/xdg.sh" ]; then
+    . "$HOME/.config/bash/conf.d/xdg.sh"
 fi
 
-# LESS & MAN colors
-export LESS=-R
+# 2. Base PATH
+export PATH="$HOME/.scripts:$PATH"
+[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/share/juliaup/bin:$PATH"
+export PATH="$HOME/.opencode/bin:$PATH"
+
+# 3. Development tooling
+export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
+export DOCKER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/docker"
+export PATH="$CARGO_HOME/bin:$PATH"
+
+# 4. Application preferences
+export EDITOR='vim'
+export BROWSER='brave-browser'
+export READER='zathura'
+export TERMINAL='mate-terminal'
+export JULIAUP_DEPOT_PATH="${XDG_DATA_HOME:-$HOME/.local/share}/julia"
+export BAT_THEME='tokyonight_night'
+
+# 5. LESS and terminal configuration
+export LESS='-R'
 export LESS_TERMCAP_mb=$'\e[1;32m'
 export LESS_TERMCAP_md=$'\e[1;36m'
 export LESS_TERMCAP_me=$'\e[0m'
@@ -29,46 +34,14 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;44;32m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;31m'
-#less more friendly for non text inputs
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 export LESSHISTFILE=-
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-#GENERAL VARIABLES
-export BROWSER='brave-browser'
-export READER='zathura'
-export EDITOR='vim'
-export TERMINAL='mate-terminal'
+# 6. npm config paths under XDG
+export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/npm/npmrc"
+export NPM_CONFIG_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/npm"
 
-# load aliases for the terminal defining some
-[ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
-#if exists load the variables XDG base directory
-[ -f "$HOME/.config/xdgrc" ] && source "$HOME/.config/xdgrc";
-
-
-#RUST HOME and CARGO home
-export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
-export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
-export PATH="$CARGO_HOME/bin:$PATH"
-
-
-#CUDA - DEEP LEARNING
-export CUDA_HOME='/usr/local/cuda'
-export PATH="$CUDA_HOME/bin:$PATH"
-export LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
-##OPENBLAS
-#export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-#export LD_LIBRARY_PATH=$CUDA_HOME/extras/CUPTI/lib64:$LD_LIBRARY_PATH
-
-
-. "$HOME/.local/share/../bin/env"
-
-
-# This is to install nvm
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-# Cache de NPM
-export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-export NPM_CONFIG_CACHE="$XDG_CACHE_HOME/npm"
-
+# 7. Linux CUDA/NVIDIA support (when present)
+if [ -f "$HOME/.config/bash/conf.d/gpu-linux.sh" ]; then
+    . "$HOME/.config/bash/conf.d/gpu-linux.sh"
+fi

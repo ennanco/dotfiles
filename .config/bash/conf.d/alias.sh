@@ -1,0 +1,16 @@
+#!/bin/sh
+alias cat='bat'
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias cp='cp -iv'
+alias diff='diff --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='rg'
+alias find='fd'
+alias ls='eza -gh --group-directories-first --git --color=always --icons=always'
+alias more='less'
+alias please='sudo $(fc -ln -1)'
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias jupyter-notebook="$HOME/.local/bin/jupyter-notebook --no-browser"
+alias ssh-tmux="ssh -t -- /bin/sh -c 'tmux has-session && exec tmux attach || exec tmux'"
+alias tmux='tmux -f ~/.config/tmux/tmux.conf'
