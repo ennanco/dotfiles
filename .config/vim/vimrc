@@ -163,6 +163,23 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+" Move selected lines up/down in visual mode
+xnoremap J :m '>+1<CR>gv=gv
+xnoremap K :m '<-2<CR>gv=gv
+
+" Keep cursor/search context centered while navigating
+nnoremap J mzJ`z
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" Clipboard and paste helpers
+xnoremap <leader>p "_dP
+nnoremap <leader>y "+y
+xnoremap <leader>y "+y
+nnoremap <leader>Y "+Y
+
 "FZF
 map <C-f> <Esc><Esc>:Files!<CR>
 inoremap <C-f> <Esc><Esc>:Blines!<CR>
