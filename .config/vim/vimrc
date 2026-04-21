@@ -86,7 +86,11 @@ set nohlsearch                  "set highlight in searches off
 
 set clipboard=unnamedplus       "share the clipboard of the XWindows
 
-set viminfofile+=$XDG_STATE_HOME/vim/viminfo  "Change the folder of the viminfo, ensure that vim is already creted
+if empty($XDG_STATE_HOME)
+  let $XDG_STATE_HOME = expand('~/.local/state')
+endif
+call mkdir($XDG_STATE_HOME . '/vim', 'p')
+let &viminfofile = $XDG_STATE_HOME . '/vim/viminfo'
 
 "remove the default behavior that any change is copied in the default registry
 nnoremap c "_c
