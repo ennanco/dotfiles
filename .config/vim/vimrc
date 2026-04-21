@@ -1,6 +1,11 @@
 let mapleader = "_"               "Define the leader character for additional functions
 filetype off
 
+" Ensure XDG vim path is part of runtimepath for autoload/plugins
+if index(split(&runtimepath, ','), expand('~/.config/vim')) < 0
+  execute 'set runtimepath^=' . fnameescape(expand('~/.config/vim'))
+endif
+
 
 call plug#begin('~/.config/vim/plugged')
 Plug 'itchyny/lightline.vim'                         " Status bar lighter than airline
