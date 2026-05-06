@@ -16,6 +16,7 @@ if [ -d "$NVM_DIR" ]; then
     npm() { unset -f nvm node npm npx; load_nvm; npm "$@"; }
     npx() { unset -f nvm node npm npx; load_nvm; npx "$@"; }
 
+    opencode() { unset -f opencode; load_nvm; opencode "$@"; }
     codex() { unset -f codex; load_nvm; codex "$@"; }
     gemini() { unset -f gemini; load_nvm; gemini "$@"; }
     claude() { unset -f claude; load_nvm; claude "$@"; }

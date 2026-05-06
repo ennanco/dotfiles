@@ -42,6 +42,12 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # 6. Interactive modules
+if [ -d "$HOME/.config/bash/conf.d/env" ]; then
+    for file in "$HOME/.config/bash/conf.d/env"/*.sh; do
+        [ -r "$file" ] && . "$file"
+    done
+fi
+
 if [ -d "$HOME/.config/bash/conf.d/interactive" ]; then
     for file in "$HOME/.config/bash/conf.d/interactive"/*.sh; do
         [ -r "$file" ] && . "$file"
