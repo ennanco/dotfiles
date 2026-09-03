@@ -5,17 +5,25 @@ if [ -f "$HOME/.config/bash/conf.d/env/xdg.sh" ]; then
     . "$HOME/.config/bash/conf.d/env/xdg.sh"
 fi
 
+# Prepend a directory only when it is not already in PATH.
+path_prepend() {
+    case ":${PATH:-}:" in
+        *:"$1":*) ;;
+        *) export PATH="$1${PATH:+:$PATH}" ;;
+    esac
+}
+
 # 2. Base PATH
-export PATH="$HOME/.scripts:$PATH"
-[ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.local/share/juliaup/bin:$PATH"
-export PATH="$HOME/.opencode/bin:$PATH"
+path_prepend "$HOME/.scripts"
+[ -d "$HOME/.local/bin" ] && path_prepend "$HOME/.local/bin"
+path_prepend "$HOME/.local/share/juliaup/bin"
+path_prepend "$HOME/.opencode/bin"
 
 # 3. Development tooling
 export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
 export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
 export DOCKER_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/docker"
-export PATH="$CARGO_HOME/bin:$PATH"
+path_prepend "$CARGO_HOME/bin"
 
 # 4. Application preferences
 export EDITOR='vim'
