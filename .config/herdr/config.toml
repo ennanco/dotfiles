@@ -14,7 +14,7 @@ agent_panel_sort = "spaces"
 
 [terminal]
 default_shell = "/bin/bash"
-shell_mode = "non_login"
+shell_mode = "login"
 new_cwd = "current"
 
 [keys]
