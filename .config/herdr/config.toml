@@ -11,6 +11,8 @@ overlay1 = "#ffffff"
 [ui]
 status_indicators = "dots"
 agent_panel_sort = "spaces"
+tab_bar_right = [{ type = "hostname" }]
+window_title = "{hostname}: {workspace}"
 
 [terminal]
 default_shell = "/bin/bash"
