@@ -1,0 +1,31 @@
+onboarding = false
+
+[theme]
+name = "tokyo-night"
+auto_switch = false
+
+[theme.custom]
+overlay0 = "#ffffff"
+overlay1 = "#ffffff"
+
+[ui]
+status_indicators = "dots"
+agent_panel_sort = "spaces"
+tab_bar_right = [{ type = "hostname" }]
+window_title = "{hostname}: {workspace}"
+
+[terminal]
+default_shell = "/bin/bash"
+shell_mode = "login"
+new_cwd = "current"
+
+[keys]
+prefix = "ctrl+a"
+focus_pane_left = "prefix+h"
+focus_pane_down = "prefix+j"
+focus_pane_up = "prefix+k"
+focus_pane_right = "prefix+l"
+split_vertical = "prefix+|"
+split_horizontal = "prefix+minus"
+resize_mode = "prefix+r"
+toggle_sidebar = "prefix+shift+t"

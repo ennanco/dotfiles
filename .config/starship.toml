@@ -1,7 +1,6 @@
 format = """
 [░▒▓](#a3aed2)\
 $username\
-$hostname\
 [](bg:#769ff0 fg:#a3aed2)\
 $directory\
 [](fg:#769ff0 bg:#394260)\
@@ -9,6 +8,7 @@ $git_branch\
 $git_status\
 $docker_context\
 [](fg:#394260 bg:#212736)\
+$c\
 $elixir\
 $elm\
 $nodejs\
@@ -27,7 +27,7 @@ add_newline = false
 [username]
 show_always = true
 style_user = "bg:#a3aed2 fg:#090c0c"
-style_root = "bg:#a3aed2 fg:red"
+style_root = "bg:#a3aed2"
 format = '[$user ]($style)'
 disabled = false
 
@@ -37,13 +37,6 @@ format = "[ $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
 
-[hostname]
-ssh_only = true
-style = "bg:#a3aed2 fg:#090c0c"
-format = '[on $hostname ]($style)'
-trim_at = '.companyname.com'
-disabled = false
-
 [directory.substitutions]
 "Documents" = "󰈙 "
 "Downloads" = " "
@@ -52,19 +45,17 @@ disabled = false
 
 [docker_context]
 symbol = " "
-style = "fg:#769ff0 bg:#212736"
+style = "fg:#769ff0 bg:#394260"
 format = '[ $symbol $context ]($style) $path'
-
-# [c] is not recognized, I don't know why
 
 [elixir]
 symbol = " "
-style = "fg:#769ff0 bg:#212736"
+style = "fg:#a0a9cb bg:#1d2230"
 format = '[ $symbol ($version) ]($style)'
 
 [elm]
 symbol = " "
-style = "fg:#769ff0 bg:#212736"
+style = "fg:#a0a9cb bg:#1d2230"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
@@ -78,42 +69,42 @@ format = '[[($all_status$ahead_behind )](fg:#769ff0 bg:#394260)]($style)'
 
 [nodejs]
 symbol = " "
-style = "fg:#769ff0 bg:#212736"
+style = "fg:#a0a9cb bg:#1d2230"
 format = '[ $symbol ($version) ]($style)'
 
 [rust]
 symbol = " "
-style = "fg:#769ff0 bg:#212736"
+style = "fg:#a0a9cb bg:#1d2230"
 format = '[ $symbol ($version) ]($style)'
 
 [golang]
 symbol = " "
-style = "fg:#769ff0 bg:#212736"
+style = "fg:#a0a9cb bg:#1d2230"
 format = '[ $symbol ($version) ]($style)'
 
 [java]
 symbol = " "
-style = "fg:#769ff0 bg:#212736"
+style = "fg:#a0a9cb bg:#1d2230"
 format = '[ $symbol ($version) ]($style)'
 
 [julia]
 symbol = " "
-style = "fg:#769ff0 bg:#212736"
+style = "fg:#a0a9cb bg:#1d2230"
 format = '[ $symbol ($version) ]($style)'
 
 [php]
 symbol = " "
-style = "fg:#769ff0 bg:#212736"
+style = "fg:#a0a9cb bg:#1d2230"
 format = '[ $symbol ($version) ]($style)'
 
 [python]
 symbol = " "
-style = "fg:#769ff0 bg:#212736"
+style = "fg:#a0a9cb bg:#1d2230"
 format = '[ $symbol ($version) ]($style)'
 
 [lua]
 symbol = " "
-style = "fg:#769ff0 bg:#212736"
+style = "fg:#a0a9cb bg:#1d2230"
 format = '[ $symbol ($version) ]($style)'
 
 [time]
